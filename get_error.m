@@ -12,11 +12,6 @@ stopi = 350; %END FRAME
 %CAMERA/RECORDING
 fov_x = 101.55; %SCENE CAMERA DEGREES X
 fov_y = 73.6; %SCENE CAMERA DEGREES Y
-fov_res_x = 640; %SCENE CAMERA PIXELS X
-fov_res_y = 480; %SCENE CAMERA PIXELS Y
-to_degreesx = fov_res_x/fov_x;
-to_degreesy = fov_res_y/fov_y;
-
 
 %GO THROUGH ALL FRAMES IN RANGE, PROMPTS WHETHER TO RECORD ACCURACY OR NOT
 %(OR NO TO SKIP A FRAME, OR STOP TO EXIT)
@@ -32,7 +27,15 @@ for i = starti:stopi
         break;
     end
 end
-    
+
+im_size = size(im);
+
+fov_res_x = im_size(1); %SCENE CAMERA PIXELS X
+fov_res_y = im_size(2); %SCENE CAMERA PIXELS Y
+to_degreesx = fov_res_x/fov_x;
+to_degreesy = fov_res_y/fov_y;
+
+
 distx = abs(gazex - targetx) ./ to_degreesx;
 disty = abs(gazey - targety) ./ to_degreesy;
 dist_center = sqrt(distx.^2 + disty.^2); %Use the distance formula to calculate average of XY errors
